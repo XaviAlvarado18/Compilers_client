@@ -1,0 +1,18 @@
+.grid-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100vh; /* Altura completa de la ventana */
+    width: 100vw;  /* Ancho completo de la ventana */
+    text-align: left !important;
+}
+
+.edit{
+    transform: translateY(-2000px); /* Ajusta el valor según lo necesites */
+}
+  
+.CodeMirror {
+    width: 100%;  /* Ancho completo del contenedor */
+    height: 100%; /* Altura completa del contenedor */
+    text-align: left !important;
+}  
