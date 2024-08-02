@@ -7,8 +7,8 @@
     text-align: left !important;
 }
 
-.edit{
-    transform: translateY(-2000px); /* Ajusta el valor según lo necesites */
+.editor {
+    transform: translateY(6.50vh);
 }
   
 .CodeMirror {
@@ -16,3 +16,18 @@
     height: 100%; /* Altura completa del contenedor */
     text-align: left !important;
 }  
+
+.input {
+    position: absolute;
+    margin-top: 20px;
+    width: 35.9%;
+    height: 47vh; 
+    transform: translateY(4.90vh) translateX(64vw);
+}
+
+.output {
+    position: absolute;
+    width: 35.9%;
+    height: 44.9vh; 
+    transform: translateY(54.50vh) translateX(64vw);
+}
