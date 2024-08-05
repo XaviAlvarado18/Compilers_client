@@ -1,17 +1,14 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import './Button.css'
+import { FaPlay } from 'react-icons/fa'; // Importa el icono de 'play'
+import './Button.css'; // Importa el archivo CSS
 
-const CompileButton = ({ onClick }) => {
+const CompileButton = ({onClick}) => {
 
-    return (
-      <Button 
-        className="button"
-        onClick={onClick}
-      >
-        Compilar
-      </Button>
-    )
-}
+  return (
+    <button className="button" onClick={onClick}>
+      <FaPlay className="icon" /> Compile
+    </button>
+  );
+};
 
 export default CompileButton;

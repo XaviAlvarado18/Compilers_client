@@ -21,8 +21,8 @@
     position: absolute;
     margin-top: 20px;
     width: 35.9%;
-    height: 47vh; 
-    transform: translateY(4.90vh) translateX(64vw);
+    height: 48vh; 
+    transform: translateY(4.50vh) translateX(64vw);
 }
 
 .output {
@@ -31,3 +31,35 @@
     height: 44.9vh; 
     transform: translateY(54.50vh) translateX(64vw);
 }
+
+
+.buttonCompile{
+    transform: translate(-100%, 50%); /* Unidades relativas para translate */
+    transition: transform 0.3s ease;
+}
+
+
+/* Estilos para el texto CompiScript */
+.header-text {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 2rem; /* Tamaño de fuente inicial */
+    color: #F6B17A; /* Color del texto */
+    font-family: 'Arial', sans-serif; /* Fuente del texto */
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(121, 26, 26, 0.5); /* Sombra para el texto */
+    margin: 0; /* Elimina margen */
+  }
+  
+  @media (max-width: 600px) {
+    .header-text {
+      font-size: 1.5rem; /* Ajusta el tamaño de fuente en pantallas pequeñas */
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .header-text {
+      font-size: 1.2rem; /* Ajusta el tamaño de fuente en pantallas muy pequeñas */
+    }
+  }
