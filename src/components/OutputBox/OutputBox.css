@@ -1,0 +1,14 @@
+.output-box {
+    /*border: 1px solid #ccc; */
+    
+    width: 99.5%;
+    height: 100%;
+    overflow: auto; /* Permite desplazamiento si el contenido es largo */
+    /*background-color: #1F1A24; */
+}
+  
+pre {
+    margin: 0;
+    font-family: monospace;
+}
+  
