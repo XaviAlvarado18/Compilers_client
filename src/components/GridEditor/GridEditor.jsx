@@ -9,9 +9,33 @@ import './styles.css'
 
 const GridEditor = () => {
   const [code, setCode] = useState('');
+  const [parseTree, setParseTree] = useState('');
 
-  const handleCompile = () => {
+  const handleCompile = async () => {
     console.log("Compilando...");
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/compile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }), // serializar el contenido del editor en JSON
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log('Compilación exitosa:', result);
+      setParseTree(result.parse_tree);
+      // Aquí puedes actualizar el estado con el resultado de la compilación si es necesario
+    } catch (error) {
+      console.error('Error al compilar:', error);
+    }
+
+    console.log(JSON.stringify({code}));
     // Aquí puedes añadir la lógica que necesites para compilar
   };
 
@@ -32,7 +56,7 @@ const GridEditor = () => {
             <OutputBox output={code} border="1px solid green" backgroundColor="#1F1A24"/>
         </div>
         <div className="output">
-            <OutputBox border="0.1px solid white" backgroundColor="#1F1A24"/>
+            <OutputBox output={parseTree} border="0.1px solid white" backgroundColor="#1F1A24"/>
         </div>
         <div className="buttonCompile">
             <CompileButton onClick={handleCompile}></CompileButton>
