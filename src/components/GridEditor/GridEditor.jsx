@@ -5,6 +5,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { materialDark } from '@uiw/codemirror-theme-material';
 import OutputBox from '../OutputBox/OutputBox';
 import CompileButton from '../Button/Button';
+import TreeButton from '../TreeButton/TreeButton';
 import './styles.css'
 
 const GridEditor = () => {
@@ -39,6 +40,36 @@ const GridEditor = () => {
     // Aquí puedes añadir la lógica que necesites para compilar
   };
 
+
+  const handleTree = async () => {
+    console.log("Obtain tree...");
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/get-tree', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }), // serializar el contenido del editor en JSON
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log('Compilación exitosa:', result);
+      //setParseTree(result.parse_tree);
+      // Aquí puedes actualizar el estado con el resultado de la compilación si es necesario
+    } catch (error) {
+      console.error('Error al compilar:', error);
+    }
+
+    console.log(JSON.stringify({ code }));
+    // Aquí puedes añadir la lógica que necesites para compilar
+};
+
+
   return (
     <div className="grid-container">
         <h1 className="header-text">CompiScript</h1>
@@ -60,6 +91,9 @@ const GridEditor = () => {
         </div>
         <div className="buttonCompile">
             <CompileButton onClick={handleCompile}></CompileButton>
+        </div>
+        <div className="buttonCompile">
+            <TreeButton onClick={handleTree}></TreeButton>
         </div>
     </div>
   );

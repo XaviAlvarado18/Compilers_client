@@ -1,0 +1,25 @@
+/* TreeButton.css */
+
+.buttonTree{
+    display: flex;
+    align-items: center;
+    background-color: green; /* Color del botón */
+    color: white;
+    padding: 0.5em 1em; /* Unidades relativas para padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif; /* Fuente del texto */
+    font-weight: bold;
+    font-size: 1.0rem; /* Unidades relativas para font-size */
+    transition: background-color 0.3s ease; /* Transición suave */
+  }
+  
+  .button:hover {
+    background-color: darkgreen; /* Color del botón al pasar el cursor */
+  }
+  
+  .icon {
+    margin-right: 0.5em; /* Unidades relativas para margin */
+  }
+  
