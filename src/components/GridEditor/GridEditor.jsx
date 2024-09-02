@@ -11,36 +11,51 @@ import './styles.css'
 const GridEditor = () => {
   const [code, setCode] = useState('');
   const [parseTree, setParseTree] = useState('');
+  const [errors, setErrors] = useState('')
 
   const handleCompile = async () => {
     console.log("Compilando...");
-
+  
     try {
       const response = await fetch('http://127.0.0.1:5000/compile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code }), // serializar el contenido del editor en JSON
+        body: JSON.stringify({ code }), // Serializar el contenido del editor en JSON
       });
-
+  
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
-
+  
       const result = await response.json();
-      console.log('Compilación exitosa:', result);
-      setParseTree(result.parse_tree);
-      // Aquí puedes actualizar el estado con el resultado de la compilación si es necesario
+  
+      if (result.status === 'success') {
+        console.log('Compilación exitosa:', result);
+        setParseTree(result.message || result.parse_tree); // Actualiza según tu lógica
+      } else if (result.status === 'failure') {
+        console.log('Errores semánticos encontrados:');
+  
+        // Crear un mensaje o estructura para mostrar los errores
+        const errorMessages = result.errors.map(error => 
+          `Error: ${error.error_message} en línea ${error.line}, columna ${error.column}`
+        ).join('\n');
+  
+        console.error(errorMessages); // Muestra los errores en la consola
+        
+        // Utilizar setParseTree para mostrar los errores en el UI
+        setParseTree(errorMessages); // Puedes ajustar esto si necesitas un formato diferente
+      }
     } catch (error) {
       console.error('Error al compilar:', error);
+      // Manejar errores que puedan ocurrir durante la llamada fetch
     }
-
-    console.log(JSON.stringify({code}));
+  
+    console.log(JSON.stringify({ code }));
     // Aquí puedes añadir la lógica que necesites para compilar
   };
-
-
+  
   const handleTree = async () => {
     console.log("Obtain tree...");
 
