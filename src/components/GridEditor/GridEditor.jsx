@@ -12,10 +12,12 @@ const GridEditor = () => {
   const [code, setCode] = useState('');
   const [parseTree, setParseTree] = useState('');
   const [errors, setErrors] = useState('')
+  const [symbolData, setSymbolData] = useState(null);
+
 
   const handleCompile = async () => {
     console.log("Compilando...");
-  
+
     try {
       const response = await fetch('http://127.0.0.1:5000/compile', {
         method: 'POST',
@@ -24,37 +26,53 @@ const GridEditor = () => {
         },
         body: JSON.stringify({ code }), // Serializar el contenido del editor en JSON
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
-  
+
       const result = await response.json();
-  
-      if (result.status === 'success') {
-        console.log('Compilación exitosa:', result);
-        setParseTree(result.message || result.parse_tree); // Actualiza según tu lógica
-      } else if (result.status === 'failure') {
-        console.log('Errores semánticos encontrados:');
-  
-        // Crear un mensaje o estructura para mostrar los errores
-        const errorMessages = result.errors.map(error => 
-          `Error: ${error.error_message} en línea ${error.line}, columna ${error.column}`
-        ).join('\n');
-  
-        console.error(errorMessages); // Muestra los errores en la consola
-        
-        // Utilizar setParseTree para mostrar los errores en el UI
-        setParseTree(errorMessages); // Puedes ajustar esto si necesitas un formato diferente
+
+      // Verifica que compile_result existe y tiene las propiedades necesarias
+      if (result && result.compile_result) {
+        const compileResult = result.compile_result;
+
+        if (compileResult.status === 'success') {
+          console.log('Compilación exitosa:', compileResult);
+          setParseTree(compileResult.message || compileResult.parse_tree); // Actualiza según tu lógica
+        } else if (compileResult.status === 'failure') {
+          console.log('Errores semánticos encontrados:');
+
+          // Crear un mensaje o estructura para mostrar los errores
+          const errorMessages = compileResult.errors.map(error => 
+            `Error: ${error.error_message} en línea ${error.line}, columna ${error.column}`
+          ).join('\n');
+
+          console.error(errorMessages); // Muestra los errores en la consola
+          
+          // Utilizar setParseTree para mostrar los errores en el UI
+          setParseTree(errorMessages); // Puedes ajustar esto si necesitas un formato diferente
+        }
+      } else {
+        // Manejar el caso donde compile_result no está presente
+        console.error('La respuesta no contiene el campo compile_result:', result);
       }
+
+      // Guardar symbol_data en el estado si está presente
+      if (result && result.symbol_data) {
+        console.log('Datos de símbolo:', result.symbol_data);
+        setSymbolData(result.symbol_data); // Guardar en el estado
+      }
+
     } catch (error) {
       console.error('Error al compilar:', error);
       // Manejar errores que puedan ocurrir durante la llamada fetch
     }
-  
+
     console.log(JSON.stringify({ code }));
     // Aquí puedes añadir la lógica que necesites para compilar
   };
+
   
   const handleTree = async () => {
     console.log("Obtain tree...");
@@ -98,9 +116,12 @@ const GridEditor = () => {
                 onChange={(value) => setCode(value)}
             />
         </div>
-        <div className="input">
-            <OutputBox output={code} border="1px solid green" backgroundColor="#1F1A24"/>
-        </div>
+        {/* Mostrar symbolData si está disponible */}
+        {symbolData && (
+          <div className="input">
+            <OutputBox output={JSON.stringify(symbolData, null, 2)} border="1px solid blue" backgroundColor="#1F1A24"/>
+          </div>
+        )}
         <div className="output">
             <OutputBox output={parseTree} border="0.1px solid white" backgroundColor="#1F1A24"/>
         </div>

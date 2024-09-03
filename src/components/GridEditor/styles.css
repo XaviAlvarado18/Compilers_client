@@ -30,6 +30,8 @@
     width: 35.9%;
     height: 44.9vh; 
     transform: translateY(54.50vh) translateX(64vw);
+    overflow-y: auto; /* Permite desplazamiento vertical */
+    overflow-x: hidden; /* Oculta el desplazamiento horizontal */
 }
 
 
